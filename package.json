@@ -5,8 +5,10 @@
   "main": "server.js",
   "scripts": {
     "test": "npm run test",
-    "dev": "node server.js",
-    "server": "nodemon server.js"
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client-view",
+    "clientinstall": "npm install --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Love Nosa",
   "license": "MIT",
