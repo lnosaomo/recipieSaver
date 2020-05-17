@@ -13,7 +13,7 @@ connectDB();
 app.use(express.json({ extended: false }));
 
 //ROUTES CONFIGURATION
-
+//add
 app.use('/api/users', require('./app_routes/users'));
 app.use('/api/auth', require('./app_routes/auth'));
 app.use('/api/contacts', require('./app_routes/contacts'));
