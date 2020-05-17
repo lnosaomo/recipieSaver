@@ -14,7 +14,7 @@ app.use(express.json({ extended: false }));
 
 //ROUTES CONFIGURATION
 
-app.use('/api/users', require('./routes/users'));
+app.use('/api/appusers', require('./routes/appusers'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/contacts', require('./routes/contacts'));
 
