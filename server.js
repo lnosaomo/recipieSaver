@@ -14,9 +14,9 @@ app.use(express.json({ extended: false }));
 
 //ROUTES CONFIGURATION
 
-app.use('/api/appusers', require('./approutes/appusers'));
-app.use('/api/auth', require('./approutes/auth'));
-app.use('/api/contacts', require('./approutes/contacts'));
+app.use('/api/users', require('./app_routes/users'));
+app.use('/api/auth', require('./app_routes/auth'));
+app.use('/api/contacts', require('./app_routes/contacts'));
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client-view/build'));
