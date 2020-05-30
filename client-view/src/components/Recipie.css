@@ -1,0 +1,7 @@
+.mb-0 {
+  text-align: left;
+}
+
+.card-body > li {
+  list-style-type: square;
+}
