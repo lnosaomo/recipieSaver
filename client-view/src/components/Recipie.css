@@ -1,7 +1,62 @@
 .mb-0 {
   text-align: left;
+  margin-top: -10px;
 }
 
 .card-body > li {
   list-style-type: square;
+}
+
+.calories {
+  font-style: italic;
+}
+
+.right {
+  float: right;
+}
+
+.img-thumbnail {
+  width: 20%;
+  margin-top: 9px;
+  height: 30%;
+}
+
+.btn-secondary {
+  color: white;
+  background-color: gray;
+  border-color: #545b62;
+}
+
+.btn-link {
+  color: #0056b3;
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+.get-recipies {
+  background-color: #007bff;
+}
+
+@media (min-width: 168px) {
+  .img-thumbnail {
+    width: 100%;
+  }
+}
+
+@media (min-width: 450px) {
+  .img-thumbnail {
+    width: 50%;
+  }
+}
+
+@media (min-width: 500px) {
+  .img-thumbnail {
+    width: 40%;
+  }
+}
+
+@media (min-width: 900px) {
+  .img-thumbnail {
+    width: 20%;
+  }
 }
