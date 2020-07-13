@@ -1,10 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
 import AuthContext from '../../context/auth/authContext';
 import AlertContext from '../../context/alert/alertContext';
+import ContactContext from '../../context/contact/contactContext';
 
 const Login = props => {
   const alertContext = useContext(AlertContext);
   const authContext = useContext(AuthContext);
+  const contactContext = useContext(ContactContext);
+  const { addContact, selectedRecipe } = contactContext;
 
   const { setAlert } = alertContext;
   const { login, error, clearErrors, isAuthenticated } = authContext;
@@ -30,6 +33,7 @@ const Login = props => {
 
   const onSubmit = e => {
     e.preventDefault();
+
     if (email === '' || password === '') {
       setAlert('Please fill in all fields', 'danger');
     } else {
@@ -43,7 +47,7 @@ const Login = props => {
   return (
     <div className='form-container'>
       <h1>
-        Account <span className='text-primary'>Login</span>
+        <span className='text-primary'>Login</span> to save your recipies!
       </h1>
       <form action='' onSubmit={onSubmit}>
         <div className='form-group'>

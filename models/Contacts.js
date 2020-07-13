@@ -1,29 +1,32 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const ContactsSchema = mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "users"
+    ref: 'users'
   },
-  name: {
+  label: {
     type: String,
     required: true
   },
-  email: {
+  image: {
     type: String,
     required: true
   },
 
-  phone: {
+  source: {
     type: String
   },
-  type: {
+  url: {
     type: String
   },
-  date: {
-    type: Date,
-    default: Date.now
+  calories: {
+    type: Number
+  },
+  ingredientLines: {
+    type: Array,
+    required: true
   }
 });
 
-module.exports = mongoose.model("contact", ContactsSchema);
+module.exports = mongoose.model('contact', ContactsSchema);

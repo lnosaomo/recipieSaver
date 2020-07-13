@@ -1,16 +1,35 @@
-import React, { useState, useEffect, Fragment, useRef } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  Fragment,
+  useRef
+} from 'react';
 import axios from 'axios';
 import RecipieItem from './layout/RecipieItem';
 import { v4 as uuidv4 } from 'uuid';
 import './layout/autoSuggest.css';
 import '../components/Recipie.css';
+import Spinner from './layout/Spinner';
+import response from './layout/sample-recipie';
+import ContactContext from '../context/contact/contactContext';
 
 const Recipie = () => {
+  const contactContext = useContext(ContactContext);
+  const {
+    setCurrentFoodName,
+    currentFoodName,
+    selectedRecipe,
+    getRecipeSearch
+  } = contactContext;
+  console.log(selectedRecipe);
+
   const [recipies, setRecipies] = useState([]);
   const [search, setSearch] = useState({
     mealName: '',
     type: 'personal'
   });
+  const [loading, setLoading] = useState(false);
 
   const [activeSuggestion, setactiveSuggestion] = useState(0);
   const [ress, setRess] = useState([]);
@@ -20,6 +39,10 @@ const Recipie = () => {
   const [showSuggestions, setshowSuggestions] = useState(true);
   const { mealName, type } = search;
   const text = useRef('');
+  let foodSearch = localStorage.getItem('foodSearch');
+  useEffect(() => {
+    getRecipeSearch(foodSearch ? foodSearch : currentFoodName);
+  }, []);
 
   const onchangefoodName = e => {
     setfoodName(e.target.value);
@@ -40,7 +63,7 @@ const Recipie = () => {
     );
 
     //debugger;
-    console.log(ress);
+    //console.log(ress);
 
     // Update the user input and filtered suggestions, reset the active
     // suggestion and make sure the suggestions are shown
@@ -55,14 +78,13 @@ const Recipie = () => {
     var cors_api_host = 'https://cors-anywhere.herokuapp.com/';
 
     e.preventDefault();
-    axios
-      .get(
-        `${cors_api_host}https://api.edamam.com/search?q=${foodName}&app_id=313605df&app_key=3a360d7219529db4accf27b5c25d9845`
-      )
-      .then(res => {
-        setRecipies(res.data.hits);
-      });
-    console.log(recipies);
+    getRecipeSearch(currentFoodName);
+    //setLoading(true);
+
+    // setRecipies(response.hits);
+    // setSelectedRecipe(response.hits);
+    //  setLoading(false);
+    console.log(selectedRecipe);
   };
 
   // Event fired when the user clicks on a suggestion
@@ -73,6 +95,9 @@ const Recipie = () => {
     setfilteredSuggestions([]);
     setshowSuggestions(false);
     setfoodName(e.currentTarget.innerText);
+    localStorage.setItem('foodSearch', e.currentTarget.innerText);
+
+    setCurrentFoodName(e.currentTarget.innerText);
   };
 
   // Event fired when the user presses a key down
@@ -124,11 +149,7 @@ const Recipie = () => {
         </ul>
       );
     } else {
-      suggestionsListComponent = (
-        <div class='no-suggestions'>
-          <em>No suggestions, you're on your own!</em>
-        </div>
-      );
+      suggestionsListComponent = <div class='no-suggestions'></div>;
     }
   }
 
@@ -142,7 +163,7 @@ const Recipie = () => {
             type='text'
             id='foodName'
             ref={text}
-            placeholder='type in food name'
+            placeholder='type in food name e.g coconut rice and apple banana chutney'
             value={foodName}
             onChange={onchangefoodName}
             onKeyDown={onKeyDown}
@@ -163,10 +184,13 @@ const Recipie = () => {
 
       <div className='accordion' id='accordionExample'>
         <div>
-          {recipies &&
-            recipies.map(recipie => (
+          {!loading && selectedRecipe.length > 0 && selectedRecipe !== null ? (
+            selectedRecipe.map(recipie => (
               <RecipieItem recipie={recipie} key={uuidv4()} id={uuidv4()} />
-            ))}
+            ))
+          ) : (
+            <Spinner />
+          )}
         </div>
       </div>
     </div>

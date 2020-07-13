@@ -1,6 +1,7 @@
 import {
   ADD_CONTACT,
   DELETE_CONTACT,
+  SET_SELECTED_RECIPE,
   SET_CURRENT,
   CLEAR_CURRENT,
   UPDATE_CONTACT,
@@ -8,7 +9,9 @@ import {
   CLEAR_FILTER,
   CONTACT_ERROR,
   GET_CONTACTS,
-  CLEAR_CONTACTS
+  CLEAR_CONTACTS,
+  GET_RECIPE_SEARCH,
+  SET_CURRENT_FOODNAME
 } from '../types';
 
 export default (state, action) => {
@@ -25,6 +28,12 @@ export default (state, action) => {
         ...state,
         contacts: [action.payload, ...state.contacts],
         loading: false
+      };
+
+    case GET_RECIPE_SEARCH:
+      return {
+        ...state,
+        selectedRecipe: action.payload
       };
 
     case DELETE_CONTACT:
@@ -58,6 +67,12 @@ export default (state, action) => {
       return {
         ...state,
         current: action.payload
+      };
+
+    case SET_CURRENT_FOODNAME:
+      return {
+        ...state,
+        currentFoodName: action.payload
       };
 
     case CLEAR_CURRENT:
