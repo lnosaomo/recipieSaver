@@ -18,7 +18,8 @@ import {
   GET_RECIPE_SEARCH,
   SET_CURRENT_FOODNAME,
   SET_SELECTED_RECIPE,
-  CLEAR_RECIPE_ERRORS
+  CLEAR_RECIPE_ERRORS,
+  SUCCESS_STATUS
 } from '../types';
 
 const RecipeState = props => {
@@ -28,7 +29,8 @@ const RecipeState = props => {
     current: null,
     currentFoodName: '',
     filtered: null,
-    error: null
+    error: null,
+    loading: true
   };
 
   const [state, dispatch] = useReducer(recipeReducer, initialState);
@@ -55,7 +57,7 @@ const RecipeState = props => {
     //TODO Add back await
     try {
       const res = await axios.get(
-        `https://api.edamam.com/search?q=${foodName}&app_id=313605df&app_key=3a360d7219529db4accf27b5c25d9845`
+        `${cors_api_host}https://api.edamam.com/search?q=${foodName}&app_id=313605df&app_key=3a360d7219529db4accf27b5c25d9845`
       );
       dispatch({
         type: GET_RECIPE_SEARCH,
@@ -189,6 +191,7 @@ const RecipeState = props => {
         currentFoodName: state.currentFoodName,
         selectedRecipe: state.selectedRecipe,
         error: state.error,
+        loading: state.loading,
         setCurrent,
         getContacts,
         clearCurrent,

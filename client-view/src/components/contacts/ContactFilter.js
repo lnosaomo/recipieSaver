@@ -43,11 +43,11 @@ const ContactFilter = () => {
         />
       </form>
       <br />
-      <h2 class='text-left'>
+      <h3 class='text-left'>
         <strong>
           Saved Recipes {`(${contacts !== null ? contacts.length : ''})`}
         </strong>
-      </h2>
+      </h3>
       <br />
     </div>
   );

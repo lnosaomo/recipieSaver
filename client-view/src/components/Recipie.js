@@ -22,10 +22,14 @@ import 'react-multi-carousel/lib/styles.css';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
+import AuthContext from '../context/auth/authContext';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 
 const Recipie = () => {
+  const authContext = useContext(AuthContext);
+  const { isAuthenticated } = authContext;
+
   const useStyles = makeStyles(theme => ({
     root: {
       padding: '2px 4px',
@@ -56,6 +60,7 @@ const Recipie = () => {
     currentFoodName,
     selectedRecipe,
     getRecipeSearch,
+    loading,
     clearErrors,
     error
   } = recipeContext;
@@ -71,7 +76,6 @@ const Recipie = () => {
     }
   }, [error]);
 
-  console.log(selectedRecipe);
   let isSaved = [];
   if (contacts !== null && contacts.length > 0) {
     selectedRecipe.forEach((recipie, index) => {
@@ -85,7 +89,6 @@ const Recipie = () => {
     });
   }
 
-  console.log(isSaved);
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -111,7 +114,6 @@ const Recipie = () => {
     mealName: '',
     type: 'personal'
   });
-  const [loading, setLoading] = useState(false);
 
   const [activeSuggestion, setactiveSuggestion] = useState(0);
   const [ress, setRess] = useState([]);
@@ -237,6 +239,12 @@ const Recipie = () => {
 
   return (
     <div>
+      <h6 class='text-right'>
+        <strong>
+          Recipies Saved:
+          {`${contacts !== null && isAuthenticated ? contacts.length : 0}`}
+        </strong>
+      </h6>
       <form className='search' onSubmit={onSubmit}>
         <label class='meal-name'>
           Search for recipes to save (food name or main ingredient):

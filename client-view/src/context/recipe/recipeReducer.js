@@ -2,6 +2,7 @@ import {
   ADD_RECIPE,
   DELETE_RECIPE,
   SET_SELECTED_RECIPE,
+  SUCCESS_STATUS,
   SET_CURRENT,
   CLEAR_CURRENT,
   UPDATE_RECIPE,
@@ -34,7 +35,8 @@ export default (state, action) => {
     case GET_RECIPE_SEARCH:
       return {
         ...state,
-        selectedRecipe: action.payload
+        selectedRecipe: action.payload,
+        loading: false
       };
 
     case DELETE_RECIPE:

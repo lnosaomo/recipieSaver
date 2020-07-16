@@ -19,10 +19,7 @@ const Navbar = ({ title, icon }) => {
   const authLinks = (
     <Fragment>
       <li>
-        <Link to='/'>
-          {' '}
-          My saved recipes {`[${contacts !== null ? contacts.length : ''}]`}
-        </Link>
+        <Link to='/'> My saved recipes</Link>
       </li>
       <li>
         <a onClick={onLogout}>
