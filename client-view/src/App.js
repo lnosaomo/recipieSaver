@@ -9,10 +9,12 @@ import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Alerts from './components/auth/Alerts';
 import setAuthToken from './utils/setAuthToken';
-import ContactState from './context/contact/ContactState';
+import RecipeState from './context/recipe/RecipeState';
 import AuthState from './context/auth/authState';
 import AlertState from './context/alert/AlertState';
 import PrivateRoute from './components/routing/PrivateRoute';
+import 'materialize-css/dist/css/materialize.min.css';
+import M from 'materialize-css/dist/js/materialize.min.js';
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -21,7 +23,7 @@ if (localStorage.token) {
 const App = () => {
   return (
     <AuthState>
-      <ContactState>
+      <RecipeState>
         <AlertState>
           <Router>
             <Fragment>
@@ -31,7 +33,7 @@ const App = () => {
                 <Switch>
                   <PrivateRoute exact path='/' component={Home} />
                   <Route exact path='/about' component={About} />
-                  <Route exact path='/recipie' component={Recipie} />
+                  <Route exact path='/recipe' component={Recipie} />
                   <Route exact path='/register' component={Register} />
                   <Route exact path='/login' component={Login} />
                 </Switch>
@@ -39,7 +41,7 @@ const App = () => {
             </Fragment>
           </Router>
         </AlertState>
-      </ContactState>
+      </RecipeState>
     </AuthState>
   );
 };

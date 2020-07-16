@@ -7,22 +7,104 @@ import React, {
 } from 'react';
 import axios from 'axios';
 import RecipieItem from './layout/RecipieItem';
+import SearchBar from './layout/searchBar';
+
 import { v4 as uuidv4 } from 'uuid';
 import './layout/autoSuggest.css';
 import '../components/Recipie.css';
+import M from 'materialize-css/dist/js/materialize.min.js';
 import Spinner from './layout/Spinner';
+import AlertContext from '../context/alert/alertContext';
 import response from './layout/sample-recipie';
-import ContactContext from '../context/contact/contactContext';
+import ContactContext from '../context/recipe/recipeContext';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import InputBase from '@material-ui/core/InputBase';
+import IconButton from '@material-ui/core/IconButton';
+import SearchIcon from '@material-ui/icons/Search';
 
 const Recipie = () => {
-  const contactContext = useContext(ContactContext);
+  const useStyles = makeStyles(theme => ({
+    root: {
+      padding: '2px 4px',
+      display: 'flex',
+      alignItems: 'center',
+      width: 400
+    },
+    input: {
+      marginLeft: theme.spacing(1),
+      flex: 1
+    },
+    iconButton: {
+      padding: 10
+    },
+    divider: {
+      height: 28,
+      margin: 4
+    }
+  }));
+
+  const recipeContext = useContext(ContactContext);
+  const alertContext = useContext(AlertContext);
+
+  const { setAlert } = alertContext;
+  const { contacts, filtered, getContacts } = recipeContext;
   const {
     setCurrentFoodName,
     currentFoodName,
     selectedRecipe,
-    getRecipeSearch
-  } = contactContext;
+    getRecipeSearch,
+    clearErrors,
+    error
+  } = recipeContext;
+
+  useEffect(() => {
+    getContacts();
+  }, []);
+
+  useEffect(() => {
+    if (error === 'Recipie already saved') {
+      setAlert(error, 'light-danger');
+      clearErrors();
+    }
+  }, [error]);
+
   console.log(selectedRecipe);
+  let isSaved = [];
+  if (contacts !== null && contacts.length > 0) {
+    selectedRecipe.forEach((recipie, index) => {
+      contacts.forEach(src => {
+        if (recipie.recipe.url === src.url) {
+          selectedRecipe[index].alreadyExists = true;
+        } else {
+          selectedRecipe[index].alreadyExists = false;
+        }
+      });
+    });
+  }
+
+  console.log(isSaved);
+  const responsive = {
+    superLargeDesktop: {
+      // the naming can be any, depends on you.
+      breakpoint: { max: 4000, min: 3000 },
+      items: 5
+    },
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 3
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1
+    }
+  };
 
   const [recipies, setRecipies] = useState([]);
   const [search, setSearch] = useState({
@@ -51,7 +133,7 @@ const Recipie = () => {
     // e.preventDefault();
     axios
       .get(
-        `${cors_api_host}https://api.edamam.com/auto-complete?q=${foodName}&app_id=313605df&app_key=3a360d7219529db4accf27b5c25d9845`
+        `https://api.edamam.com/auto-complete?q=${foodName}&app_id=313605df&app_key=3a360d7219529db4accf27b5c25d9845`
       )
       .then(response => {
         //setRecipies(response.data.hits);
@@ -84,7 +166,6 @@ const Recipie = () => {
     // setRecipies(response.hits);
     // setSelectedRecipe(response.hits);
     //  setLoading(false);
-    console.log(selectedRecipe);
   };
 
   // Event fired when the user clicks on a suggestion
@@ -131,7 +212,7 @@ const Recipie = () => {
   if (showSuggestions) {
     if (ress.length > 0) {
       suggestionsListComponent = (
-        <ul class='suggestions'>
+        <ul class='suggestions '>
           {ress.map((suggestion, index) => {
             let className;
 
@@ -152,46 +233,70 @@ const Recipie = () => {
       suggestionsListComponent = <div class='no-suggestions'></div>;
     }
   }
+  const classes = useStyles();
 
   return (
     <div>
-      <form className='navbar-form navbar-left' onSubmit={onSubmit}>
-        <label>Meal Name:</label>
+      <form className='search' onSubmit={onSubmit}>
+        <label class='meal-name'>Meal Name:</label>
         <Fragment>
-          <input
-            className='input'
-            type='text'
-            id='foodName'
-            ref={text}
-            placeholder='type in food name e.g coconut rice and apple banana chutney'
-            value={foodName}
-            onChange={onchangefoodName}
-            onKeyDown={onKeyDown}
-            autocomplete='off'
-          />
+          <div>
+            <Paper component='form' className={classes.root}>
+              <input
+                type='text'
+                id='foodName'
+                placeholder='type in food name e.g coconut rice and apple banana chutney'
+                value={foodName}
+                onChange={onchangefoodName}
+                onKeyDown={onKeyDown}
+                autocomplete='off'
+              />
+              <IconButton
+                type='submit'
+                className={classes.iconButton}
+                aria-label='search'
+              >
+                <SearchIcon />
+              </IconButton>
+            </Paper>
 
-          {suggestionsListComponent}
+            {suggestionsListComponent}
+          </div>
         </Fragment>
-
-        <div>
-          <input
-            type='submit'
-            value='Get Recipies'
-            className='btn btn-primary get-recipies'
-          />
-        </div>
       </form>
 
       <div className='accordion' id='accordionExample'>
         <div>
-          {!loading && selectedRecipe.length > 0 && selectedRecipe !== null ? (
-            selectedRecipe.map(recipie => (
-              <RecipieItem recipie={recipie} key={uuidv4()} id={uuidv4()} />
-            ))
+          {!loading && selectedRecipe.length > 1 && selectedRecipe !== null ? (
+            <Carousel
+              swipeable={true}
+              draggable={false}
+              showDots={true}
+              responsive={responsive}
+              infinite={false}
+              autoPlaySpeed={1000}
+              keyBoardControl={true}
+              transitionDuration={500}
+              containerClass='carousel-container'
+              renderButtonGroupOutside={true}
+              dotListClass='custom-dot-list-style'
+              itemClass='carousel-item-padding-40-px'
+              partialVisible={true}
+            >
+              {selectedRecipe.map(recipie => (
+                <RecipieItem
+                  recipie={recipie}
+                  error={error === 'Recipie already saved' ? true : false}
+                  key={uuidv4()}
+                  id={uuidv4()}
+                />
+              ))}
+            </Carousel>
           ) : (
             <Spinner />
           )}
         </div>
+        ;
       </div>
     </div>
   );

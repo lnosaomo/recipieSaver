@@ -6,6 +6,8 @@
   --dark-color: #333333;
   --light-color: #f4f4f4;
   --danger-color: #dc3545;
+  --light-danger-color: salmon;
+
   --success-color: #28a745;
 }
 
@@ -19,8 +21,21 @@ body {
   font-family: 'Roboto', sans-serif;
   font-size: 1rem;
   line-height: 1.6;
-  background-color: #fff;
+  background-color: ghostwhite;
   color: #333;
+}
+
+nav {
+  padding: 8px;
+}
+
+nav ul a:hover {
+  background-color: none;
+}
+
+nav a:hover {
+  text-decoration: none;
+  background-color: none;
 }
 
 a {
@@ -263,6 +278,11 @@ img {
   color: #fff;
 }
 
+.alert-light-danger {
+  background: var(--light-danger-color);
+  color: #fff;
+}
+
 .btn-success,
 .bg-success,
 .badge-success,
@@ -339,7 +359,8 @@ button {
 
 .form-container h1,
 h2,
-h3 {
+h3,
+h6 {
   text-align: center;
 }
 
@@ -360,8 +381,8 @@ table th {
   align-items: center;
   padding: 0.7rem 2rem;
   z-index: 1;
+  background-color: salmon;
   width: 100%;
-  border-bottom: solid 1px var(--primary-color);
   opacity: 0.9;
   margin-bottom: 1rem;
 }
@@ -374,6 +395,10 @@ table th {
   color: #fff;
   padding: 0.45rem;
   margin: 0 0.25rem;
+}
+
+.navbar h3 {
+  color: #fff;
 }
 
 .navbar a:hover {

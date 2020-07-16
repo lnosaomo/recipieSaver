@@ -1,29 +1,30 @@
 import {
-  ADD_CONTACT,
-  DELETE_CONTACT,
+  ADD_RECIPE,
+  DELETE_RECIPE,
   SET_SELECTED_RECIPE,
   SET_CURRENT,
   CLEAR_CURRENT,
-  UPDATE_CONTACT,
-  FILTER_CONTACTS,
+  UPDATE_RECIPE,
+  FILTER_RECIPES,
   CLEAR_FILTER,
-  CONTACT_ERROR,
-  GET_CONTACTS,
-  CLEAR_CONTACTS,
+  RECIPE_ERROR,
+  GET_RECIPES,
+  CLEAR_RECIPES,
   GET_RECIPE_SEARCH,
-  SET_CURRENT_FOODNAME
+  SET_CURRENT_FOODNAME,
+  CLEAR_RECIPE_ERRORS
 } from '../types';
 
 export default (state, action) => {
   switch (action.type) {
-    case GET_CONTACTS:
+    case GET_RECIPES:
       return {
         ...state,
         contacts: action.payload,
         loading: false
       };
 
-    case ADD_CONTACT:
+    case ADD_RECIPE:
       return {
         ...state,
         contacts: [action.payload, ...state.contacts],
@@ -36,7 +37,7 @@ export default (state, action) => {
         selectedRecipe: action.payload
       };
 
-    case DELETE_CONTACT:
+    case DELETE_RECIPE:
       return {
         ...state,
         contacts: state.contacts.filter(
@@ -45,7 +46,7 @@ export default (state, action) => {
         loading: false
       };
 
-    case CLEAR_CONTACTS:
+    case CLEAR_RECIPES:
       return {
         ...state,
         contacts: null,
@@ -54,7 +55,7 @@ export default (state, action) => {
         current: false
       };
 
-    case UPDATE_CONTACT:
+    case UPDATE_RECIPE:
       return {
         ...state,
         contacts: state.contacts.map(contact =>
@@ -81,12 +82,12 @@ export default (state, action) => {
         current: null
       };
 
-    case FILTER_CONTACTS:
+    case FILTER_RECIPES:
       return {
         ...state,
         filtered: state.contacts.filter(contact => {
           const regex = new RegExp(`${action.payload}`, 'gi');
-          return contact.name.match(regex) || contact.email.match(regex);
+          return contact.label.match(regex);
         })
       };
 
@@ -96,10 +97,16 @@ export default (state, action) => {
         filtered: null
       };
 
-    case CONTACT_ERROR:
+    case RECIPE_ERROR:
       return {
         ...state,
         error: action.payload
+      };
+
+    case CLEAR_RECIPE_ERRORS:
+      return {
+        ...state,
+        error: null
       };
     default:
       return state;

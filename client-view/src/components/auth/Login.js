@@ -1,13 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
 import AuthContext from '../../context/auth/authContext';
 import AlertContext from '../../context/alert/alertContext';
-import ContactContext from '../../context/contact/contactContext';
+import ContactContext from '../../context/recipe/recipeContext';
 
 const Login = props => {
   const alertContext = useContext(AlertContext);
   const authContext = useContext(AuthContext);
-  const contactContext = useContext(ContactContext);
-  const { addContact, selectedRecipe } = contactContext;
+  const recipeContext = useContext(ContactContext);
+  const { addContact, selectedRecipe } = recipeContext;
 
   const { setAlert } = alertContext;
   const { login, error, clearErrors, isAuthenticated } = authContext;
@@ -47,7 +47,7 @@ const Login = props => {
   return (
     <div className='form-container'>
       <h1>
-        <span className='text-primary'>Login</span> to save your recipies!
+        <span>Login</span> to start saving recipes!
       </h1>
       <form action='' onSubmit={onSubmit}>
         <div className='form-group'>

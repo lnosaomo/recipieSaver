@@ -2,25 +2,26 @@ import React, { useReducer, useEffect } from 'react';
 import { v4 as uuid } from 'uuid';
 import responseArray from '../../components/layout/sample-recipie';
 import axios from 'axios';
-import ContactContext from './contactContext';
-import contactReducer from './contactReducer';
+import ContactContext from './recipeContext';
+import recipeReducer from './recipeReducer';
 import {
-  ADD_CONTACT,
-  DELETE_CONTACT,
+  ADD_RECIPE,
+  DELETE_RECIPE,
   SET_CURRENT,
   CLEAR_CURRENT,
-  UPDATE_CONTACT,
-  FILTER_CONTACTS,
+  UPDATE_RECIPE,
+  FILTER_RECIPES,
   CLEAR_FILTER,
-  CONTACT_ERROR,
-  GET_CONTACTS,
-  CLEAR_CONTACTS,
+  RECIPE_ERROR,
+  GET_RECIPES,
+  CLEAR_RECIPES,
   GET_RECIPE_SEARCH,
   SET_CURRENT_FOODNAME,
-  SET_SELECTED_RECIPE
+  SET_SELECTED_RECIPE,
+  CLEAR_RECIPE_ERRORS
 } from '../types';
 
-const ContactState = props => {
+const RecipeState = props => {
   const initialState = {
     contacts: null,
     selectedRecipe: [],
@@ -30,15 +31,15 @@ const ContactState = props => {
     error: null
   };
 
-  const [state, dispatch] = useReducer(contactReducer, initialState);
+  const [state, dispatch] = useReducer(recipeReducer, initialState);
 
   // Get Contacts
   const getContacts = async contact => {
     try {
       const res = await axios.get('/api/contacts');
-      dispatch({ type: GET_CONTACTS, payload: res.data });
+      dispatch({ type: GET_RECIPES, payload: res.data });
     } catch (err) {
-      dispatch({ type: CONTACT_ERROR });
+      dispatch({ type: RECIPE_ERROR });
     }
   };
   // Get Recipe search
@@ -52,16 +53,19 @@ const ContactState = props => {
     // try {
 
     //TODO Add back await
-    const res = await axios.get(
-      `${cors_api_host}https://api.edamam.com/search?q=${foodName}&app_id=313605df&app_key=3a360d7219529db4accf27b5c25d9845`
-    );
-    console.log(res);
-    dispatch({
-      type: GET_RECIPE_SEARCH,
-      payload: res.data.hits
-    });
+    try {
+      const res = await axios.get(
+        `https://api.edamam.com/search?q=${foodName}&app_id=313605df&app_key=3a360d7219529db4accf27b5c25d9845`
+      );
+      dispatch({
+        type: GET_RECIPE_SEARCH,
+        payload: res.data.hits
+      });
+    } catch (err) {
+      dispatch({ type: RECIPE_ERROR });
+    }
     // } catch (err) {
-    //   dispatch({ type: CONTACT_ERROR });
+    //   dispatch({ type: RECIPE_ERROR });
     // }
     // await axios
     //   .get(
@@ -90,9 +94,10 @@ const ContactState = props => {
     };
     try {
       const res = await axios.post('/api/contacts', contact, config);
-      dispatch({ type: ADD_CONTACT, payload: res.data });
+
+      dispatch({ type: ADD_RECIPE, payload: res.data });
     } catch (err) {
-      dispatch({ type: CONTACT_ERROR });
+      dispatch({ type: RECIPE_ERROR, payload: err.response.data.msg });
     }
   };
 
@@ -122,9 +127,9 @@ const ContactState = props => {
         contact,
         config
       );
-      dispatch({ type: UPDATE_CONTACT, payload: res.data });
+      dispatch({ type: UPDATE_RECIPE, payload: res.data });
     } catch (err) {
-      dispatch({ type: CONTACT_ERROR });
+      dispatch({ type: RECIPE_ERROR });
     }
   };
 
@@ -133,15 +138,15 @@ const ContactState = props => {
   const deleteContact = async id => {
     try {
       await axios.delete(`/api/contacts/${id}`);
-      dispatch({ type: DELETE_CONTACT, payload: id });
+      dispatch({ type: DELETE_RECIPE, payload: id });
     } catch (err) {
-      dispatch({ type: CONTACT_ERROR });
+      dispatch({ type: RECIPE_ERROR });
     }
   };
 
   // Clear Contacts
   const clearContacts = () => {
-    dispatch({ type: CLEAR_CONTACTS });
+    dispatch({ type: CLEAR_RECIPES });
   };
 
   /// Set Current Contact
@@ -165,14 +170,16 @@ const ContactState = props => {
   /// Filter Contacts
 
   const filterContacts = text => {
-    dispatch({ type: FILTER_CONTACTS, payload: text });
+    dispatch({ type: FILTER_RECIPES, payload: text });
   };
   ///Clear Filter
 
   const clearFilter = () => {
     dispatch({ type: CLEAR_FILTER });
   };
-
+  const clearErrors = () => {
+    dispatch({ type: CLEAR_RECIPE_ERRORS });
+  };
   return (
     <ContactContext.Provider
       value={{
@@ -185,6 +192,7 @@ const ContactState = props => {
         setCurrent,
         getContacts,
         clearCurrent,
+        clearErrors,
         addContact,
         deleteContact,
         updateContact,
@@ -201,4 +209,4 @@ const ContactState = props => {
   );
 };
 
-export default ContactState;
+export default RecipeState;

@@ -42,8 +42,22 @@ router.post(
     }
 
     const { label, url, ingredientLines, image, source, calories } = req.body;
+    function findExisting(x) {
+      return x.label === label;
+    }
 
     try {
+      let recipie = await Contact.find({
+        user: req.user.id
+      });
+
+      if (recipie) {
+        const recipieExists = recipie.some(item => item.label === label);
+
+        if (recipieExists) {
+          return res.status(400).json({ msg: 'Recipie already saved' });
+        }
+      }
       const newContact = new Contact({
         label,
         url,
@@ -58,7 +72,7 @@ router.post(
       res.json(contact);
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server Error');
+      res.status(500).send('server error');
     }
   }
 );

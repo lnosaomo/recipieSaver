@@ -27,6 +27,36 @@
   border-color: #545b62;
 }
 
+.custom-dot-list-style {
+  margin-top: 5%;
+}
+
+.meal-name {
+  font-size: 1.5rem;
+  color: darkgrey;
+}
+#foodName,
+#foodName:hover,
+#foodName:focus {
+  border-bottom: none;
+  box-shadow: none;
+  width: 100%;
+}
+
+form[class^='makeStyles-root-'],
+form[class*='makeStyles-root-'] {
+  width: 100%;
+}
+
+.search {
+  margin-bottom: 5%;
+  margin-top: 5%;
+}
+
+.MuiCardActions-root {
+  display: block;
+}
+
 .btn-link {
   color: #0056b3;
   opacity: 0.8;
@@ -37,26 +67,26 @@
   background-color: #007bff;
 }
 
-@media (min-width: 168px) {
-  .img-thumbnail {
-    width: 100%;
+@media (min-width: 464px) {
+  .MuiCard-root {
+    margin-right: 35px;
   }
 }
 
-@media (min-width: 450px) {
-  .img-thumbnail {
-    width: 50%;
+@media only screen and (max-width: 454px) {
+  .form-container h1 {
+    font-size: 2.2rem;
   }
 }
 
-@media (min-width: 500px) {
-  .img-thumbnail {
-    width: 40%;
+@media only screen and (min-width: 454px) {
+  .form-container h1 {
+    font-size: 3.2rem;
   }
 }
 
-@media (min-width: 900px) {
-  .img-thumbnail {
-    width: 20%;
+@media only screen and (min-width: 1024px) {
+  .form-container h1 {
+    font-size: 4rem;
   }
 }

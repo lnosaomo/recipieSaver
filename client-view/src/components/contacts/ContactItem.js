@@ -1,89 +1,129 @@
 import React, { useContext } from 'react';
-import ContactContext from '../../context/contact/contactContext';
+import ContactContext from '../../context/recipe/recipeContext';
+import { Link } from 'react-router-dom';
+import AuthContext from '../../context/auth/authContext';
+import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import Collapse from '@material-ui/core/Collapse';
+import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
+
+import Typography from '@material-ui/core/Typography';
+import { red } from '@material-ui/core/colors';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import ShareIcon from '@material-ui/icons/Share';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 const ContactItem = ({ contact, id }) => {
-  const contactContext = useContext(ContactContext);
-  const { deleteContact, setCurrent, clearCurrent } = contactContext;
+  const recipeContext = useContext(ContactContext);
+  const { deleteContact, setCurrent, clearCurrent } = recipeContext;
 
   const { _id, label, url, ingredientLines, image, source, calories } = contact;
 
   const onDelete = () => {
     deleteContact(_id);
-    clearCurrent();
+  };
+
+  const useStyles = makeStyles(theme => ({
+    root: {
+      maxWidth: 345
+    },
+    media: {
+      height: 0,
+      paddingTop: '56.25%' // 16:9
+    },
+    expand: {
+      transform: 'rotate(0deg)',
+      marginLeft: 'auto',
+      transition: theme.transitions.create('transform', {
+        duration: theme.transitions.duration.shortest
+      })
+    },
+    expandOpen: {
+      transform: 'rotate(180deg)'
+    },
+    avatar: {
+      backgroundColor: red[500]
+    }
+  }));
+
+  const classes = useStyles();
+  const [expanded, setExpanded] = React.useState(false);
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
   };
   return (
-    <div className='card container'>
-      <div className='card-header' id='headingOne'>
-        <h2 className='mb-0'>
-          <div></div>
-          <div className='text-right right'>
-            {' '}
-            {/* <Link
-              className=' btn btn-link'
-              //to='/'
-              // onClick={() => {
-              //   addContact(recipie.recipe);
-              //   //console.log(recipie.recipe);
-              // }}
-            >
-              {' '}
-              Save recipe{' '}
-            </Link> */}
-          </div>
-          <button
-            className='btn btn-secondary'
-            type='button'
-            data-toggle='collapse'
-            data-target={`#collapseOne${id}`}
-            aria-expanded='true'
-            aria-controls={`collapseOne${id}`}
-          >
-            {label}
-          </button>
-        </h2>
+    <Card className={classes.root}>
+      <CardHeader title={label} />
 
-        <img
-          src={`${image}`}
-          data-toggle='collapse'
-          data-target={`#collapseOne${id}`}
-          aria-expanded='true'
-          aria-controls={`collapseOne${id}`}
-          class='img-thumbnail rounded float-left'
-        ></img>
-      </div>
+      <CardMedia
+        className={classes.media}
+        image={image}
+        title='Paella dish'
+        onClick={handleExpandClick}
+      />
+      <CardContent>
+        <Typography variant='body2' color='textSecondary' component='p'>
+          Calories : {calories.toFixed()}
+        </Typography>
+        <Typography variant='body2' color='textSecondary' component='p'>
+          Number of Ingredients : {ingredientLines.length}
+        </Typography>
+        <Typography variant='body2' color='textSecondary' component='p'>
+          Source : {source}
+        </Typography>
+      </CardContent>
 
-      <div
-        id={`collapseOne${id}`}
-        className='collapse show'
-        aria-labelledby='headingOne'
-        data-parent='#accordionExample'
-      >
-        <div className='card-body'>
-          <div className='text-right'>
-            {' '}
-            <p class='badge badge-primary'>Total Calories: {calories}</p>
-          </div>
-          <div>
-            {' '}
-            <strong>Ingredients</strong>
+      <CardActions>
+        <IconButton
+          className={clsx(classes.expand, {
+            [classes.expandOpen]: expanded
+          })}
+          onClick={handleExpandClick}
+          aria-expanded={expanded}
+          aria-label='show more'
+        >
+          <ExpandMoreIcon />
+        </IconButton>
+        <Button
+          size='small'
+          color='primary'
+          onClick={() => {
+            onDelete();
+          }}
+        >
+          Delete
+        </Button>
+      </CardActions>
+      <Collapse in={expanded} timeout='auto' unmountOnExit>
+        <CardContent>
+          <strong>Ingredients List:</strong>
+          <Typography variant='body2' color='textSecondary' component='p'>
             {ingredientLines.map(line => (
               <li>{line}</li>
             ))}
-          </div>
-          <br />
-          <button
-            className='btn btn-secondary'
-            type='button'
+          </Typography>
+          {''}
+          <Button
+            size='small'
+            color='primary'
             onClick={() => {
               window.open(`${url}`, '_blank');
             }}
           >
-            Get Cooking Instructions
-          </button>
-          <strong>From: {source}</strong>
-        </div>
-      </div>
-    </div>
+            Get Instructions
+          </Button>
+        </CardContent>
+      </Collapse>
+    </Card>
   );
 };
 

@@ -1,10 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react';
-import ContactContext from '../../context/contact/contactContext';
+import ContactContext from '../../context/recipe/recipeContext';
 
 const ContactForm = () => {
-  const contactContext = useContext(ContactContext);
-  const { contacts } = contactContext;
-  const { addContact, current, clearCurrent, updateContact } = contactContext;
+  const recipeContext = useContext(ContactContext);
+  const { contacts } = recipeContext;
+  const { addContact, current, clearCurrent, updateContact } = recipeContext;
 
   useEffect(() => {
     if (current !== null) {
@@ -17,7 +17,7 @@ const ContactForm = () => {
         type: 'personal'
       });
     }
-  }, [contactContext, current]);
+  }, [recipeContext, current]);
 
   const [contact, setContact] = useState({
     name: '',

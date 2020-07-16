@@ -17,8 +17,7 @@ input {
   border: 1px solid #999;
   border-top-width: 0;
   list-style: none;
-  margin-left: 0.2%;
-  margin-top: -20px;
+  margin-top: -13px;
 
   max-height: 143px;
   overflow-y: auto;
@@ -31,13 +30,13 @@ input {
 }
 
 .suggestion-active {
-  background-color: lightslategray;
+  background-color: lightgrey;
   color: white;
   cursor: pointer;
   font-weight: 700;
 }
 .suggestions li:hover {
-  background-color: lightgray;
+  background-color: salmon;
   color: white;
   cursor: pointer;
   font-weight: 700;
