@@ -105,8 +105,7 @@ const RecipieItem = ({ recipie, id }) => {
   //     </div>
   //   );
   // };
-  const { error, contacts } = recipeContext;
-  var testVariable = contacts !== null ? contacts.length : 0;
+  const { contactAdded, contacts } = recipeContext;
 
   const useStyles = makeStyles(theme => ({
     root: {
