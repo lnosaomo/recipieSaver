@@ -238,7 +238,9 @@ const Recipie = () => {
   return (
     <div>
       <form className='search' onSubmit={onSubmit}>
-        <label class='meal-name'>Search for recipes to save:</label>
+        <label class='meal-name'>
+          Search for recipes to save (food name or main ingredient):
+        </label>
         <Fragment>
           <div>
             <Paper component='form' className='input'>
