@@ -268,8 +268,9 @@ const Recipie = () => {
       </form>
 
       <div className='accordion' id='accordionExample'>
+        {loading && <Spinner />}
         <div>
-          {!loading && selectedRecipe !== null ? (
+          {!loading && selectedRecipe !== null && (
             <Carousel
               swipeable={true}
               draggable={false}
@@ -294,11 +295,8 @@ const Recipie = () => {
                 />
               ))}
             </Carousel>
-          ) : (
-            <Spinner />
           )}
         </div>
-        ;
       </div>
     </div>
   );

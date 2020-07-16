@@ -11,8 +11,9 @@ const Navbar = ({ title, icon }) => {
 
   const { isAuthenticated, logout, user } = authContext;
 
-  const onLogout = () => {
-    logout();
+  const onLogout = async () => {
+    await logout();
+    window.location.reload(false);
   };
 
   const authLinks = (

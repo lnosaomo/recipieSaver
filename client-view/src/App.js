@@ -5,6 +5,7 @@ import Navbar from './components/layout/Navbar';
 import Home from './components/layout/Home';
 import Recipie from './components/Recipie';
 import About from './components/layout/About';
+import Footer from './components/layout/footer';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Alerts from './components/auth/Alerts';
@@ -38,6 +39,7 @@ const App = () => {
                   <Route exact path='/login' component={Login} />
                 </Switch>
               </div>
+              <Footer />
             </Fragment>
           </Router>
         </AlertState>

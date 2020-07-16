@@ -61,6 +61,7 @@ img {
   margin: auto;
   overflow: hidden;
   padding: 0 2rem;
+  min-height: calc(100vh - 80px);
 }
 
 /* Text Styles*/
@@ -281,6 +282,14 @@ img {
 .alert-light-danger {
   background: var(--light-danger-color);
   color: #fff;
+}
+
+#main-footer {
+  text-align: center;
+  padding: 1rem;
+  background: grey;
+  color: #fff;
+  height: 80px;
 }
 
 .btn-success,
