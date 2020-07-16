@@ -238,14 +238,16 @@ const Recipie = () => {
   return (
     <div>
       <form className='search' onSubmit={onSubmit}>
-        <label class='meal-name'>Meal Name:</label>
+        <label class='meal-name'>Search for recipes to save:</label>
         <Fragment>
           <div>
-            <Paper component='form' className={classes.root}>
+            <Paper component='form' className='input'>
               <input
                 type='text'
                 id='foodName'
-                placeholder='type in food name e.g coconut rice and apple banana chutney'
+                placeholder={
+                  'type in food name e.g coconut rice and apple banana chutney'
+                }
                 value={foodName}
                 onChange={onchangefoodName}
                 onKeyDown={onKeyDown}
@@ -267,7 +269,7 @@ const Recipie = () => {
 
       <div className='accordion' id='accordionExample'>
         <div>
-          {!loading && selectedRecipe.length > 1 && selectedRecipe !== null ? (
+          {!loading && selectedRecipe !== null ? (
             <Carousel
               swipeable={true}
               draggable={false}
