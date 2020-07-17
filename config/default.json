@@ -1,4 +1,0 @@
-{
-    "mongoURI": "mongodb+srv://lnosaomo:Law1203431%23@contacts-ocdjs.mongodb.net/test?retryWrites=true&w=majority",
-    "jwtSecret": "secret"
-}
