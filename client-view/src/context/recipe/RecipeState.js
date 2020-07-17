@@ -50,14 +50,7 @@ const RecipeState = props => {
   // Get Recipe search
   const getRecipeSearch = async foodName => {
     var cors_api_host = 'https://cors-anywhere.herokuapp.com/';
-    // const config = {
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   }
-    // };
-    // try {
 
-    //TODO Add back await
     try {
       const res = await axios.get(
         `${cors_api_host}https://api.edamam.com/search?q=${foodName}&app_id=${API_ID}&app_key=${API_KEY}`
