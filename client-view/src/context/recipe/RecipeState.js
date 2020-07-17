@@ -4,6 +4,9 @@ import responseArray from '../../components/layout/sample-recipie';
 import axios from 'axios';
 import ContactContext from './recipeContext';
 import recipeReducer from './recipeReducer';
+import { API_ID } from '../../components/auth/secrets';
+import { API_KEY } from '../../components/auth/secrets';
+
 import {
   ADD_RECIPE,
   DELETE_RECIPE,
@@ -57,7 +60,7 @@ const RecipeState = props => {
     //TODO Add back await
     try {
       const res = await axios.get(
-        `${cors_api_host}https://api.edamam.com/search?q=${foodName}&app_id=313605df&app_key=3a360d7219529db4accf27b5c25d9845`
+        `${cors_api_host}https://api.edamam.com/search?q=${foodName}&app_id=${API_ID}&app_key=${API_KEY}`
       );
       dispatch({
         type: GET_RECIPE_SEARCH,
@@ -67,20 +70,6 @@ const RecipeState = props => {
       dispatch({ type: RECIPE_ERROR });
     }
     // } catch (err) {
-    //   dispatch({ type: RECIPE_ERROR });
-    // }
-    // await axios
-    //   .get(
-    //     `${cors_api_host}https://api.edamam.com/search?q=${'rice'}&app_id=313605df&app_key=3a360d7219529db4accf27b5c25d9845`
-    //   )
-    //   .then(res => {
-    //     //setRecipies(response.data.hits);
-    //     console.log(res);
-    //     //setRess(response.data);
-    //   });
-
-    //console.log(response.hits);
-    //const res = await axios.get('/api/contacts');
   };
 
   ///Add Contact
@@ -103,13 +92,6 @@ const RecipeState = props => {
     }
   };
 
-  // useEffect(() => {
-  //   addContact(contact);
-  //   return () => {
-  //     abortController.abort();
-  //   };
-  // }, []);
-  ////// Set Selected Recipie
   const setSelectedRecipe = async recipe => {
     dispatch({ type: SET_SELECTED_RECIPE, payload: recipe });
   };

@@ -25,6 +25,7 @@ import InputBase from '@material-ui/core/InputBase';
 import AuthContext from '../context/auth/authContext';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
+import { API_ID, API_KEY } from './auth/secrets';
 
 const Recipie = () => {
   const authContext = useContext(AuthContext);
@@ -135,7 +136,7 @@ const Recipie = () => {
     // e.preventDefault();
     axios
       .get(
-        `https://api.edamam.com/auto-complete?q=${foodName}&app_id=313605df&app_key=3a360d7219529db4accf27b5c25d9845`
+        `${cors_api_host}https://api.edamam.com/auto-complete?q=${foodName}&app_id=${API_ID}&app_key=${API_KEY}`
       )
       .then(response => {
         //setRecipies(response.data.hits);
