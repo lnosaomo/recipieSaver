@@ -32,10 +32,16 @@ const Register = props => {
 
   const onSubmit = e => {
     e.preventDefault();
+    function validateEmail(email) {
+      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(String(email).toLowerCase());
+    }
     if (name === '' || email === '' || password === '') {
       setAlert('Please enter all fields', 'danger');
     } else if (password !== password2) {
       setAlert('Passwords do not match', 'danger');
+    } else if (validateEmail(email) === false) {
+      setAlert('Invalid Email', 'danger');
     } else {
       register({
         name,
