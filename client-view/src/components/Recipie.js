@@ -133,22 +133,18 @@ const Recipie = () => {
     setfoodName(e.target.value);
     const foodName = e.target.value;
     var cors_api_host = 'https://cors-anywhere.herokuapp.com/';
-    // e.preventDefault();
+
     axios
       .get(
         `${cors_api_host}https://api.edamam.com/auto-complete?q=${foodName}&app_id=${API_ID}&app_key=${API_KEY}`
       )
       .then(response => {
-        //setRecipies(response.data.hits);
         setRess(response.data);
       });
     // Filter our suggestions that don't contain the user's input
     const filteredSuggestions = ress.filter(
       suggestion => suggestion.indexOf(foodName) > -1
     );
-
-    //debugger;
-    //console.log(ress);
 
     // Update the user input and filtered suggestions, reset the active
     // suggestion and make sure the suggestions are shown
@@ -164,11 +160,6 @@ const Recipie = () => {
 
     e.preventDefault();
     getRecipeSearch(currentFoodName);
-    //setLoading(true);
-
-    // setRecipies(response.hits);
-    // setSelectedRecipe(response.hits);
-    //  setLoading(false);
   };
 
   // Event fired when the user clicks on a suggestion
