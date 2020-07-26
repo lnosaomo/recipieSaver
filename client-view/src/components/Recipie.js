@@ -61,7 +61,6 @@ const Recipie = () => {
     currentFoodName,
     selectedRecipe,
     getRecipeSearch,
-    loading,
     clearErrors,
     error
   } = recipeContext;
@@ -119,7 +118,7 @@ const Recipie = () => {
   const [activeSuggestion, setactiveSuggestion] = useState(0);
   const [ress, setRess] = useState([]);
   const [foodName, setfoodName] = useState(' ');
-
+  const [loading, setLoading] = useState(false);
   const [filteredSuggestions, setfilteredSuggestions] = useState([]);
   const [showSuggestions, setshowSuggestions] = useState(true);
   const { mealName, type } = search;
@@ -155,11 +154,11 @@ const Recipie = () => {
     setfoodName(e.currentTarget.value);
   };
 
-  const onSubmit = e => {
-    var cors_api_host = 'https://cors-anywhere.herokuapp.com/';
-
+  const onSubmit = async e => {
+    setLoading(true);
     e.preventDefault();
-    getRecipeSearch(currentFoodName);
+    await getRecipeSearch(currentFoodName);
+    setLoading(false);
   };
 
   // Event fired when the user clicks on a suggestion
